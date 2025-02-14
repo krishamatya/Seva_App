@@ -1,0 +1,90 @@
+.scan-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.scan-title {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.scan-instruction p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.scan-area {
+  width: 200px;
+  height: 200px;
+  border: 5px dashed #4CAF50;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scan-area:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.scan-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.scan-animation {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: absolute;
+  border: 2px solid #4CAF50;
+  animation: pulse 2s infinite ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+}
+
+.scan-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.scan-button:hover {
+  background-color: #45a049;
+}
+
+.scan-button:focus {
+  outline: none;
+}

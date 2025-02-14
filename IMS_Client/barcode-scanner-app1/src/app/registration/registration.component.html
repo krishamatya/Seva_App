@@ -1,0 +1,45 @@
+<!-- user-form.component.html -->
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+  <h2 class="form-title">User Information Form</h2>
+  <div class="form-group">
+    <label for="userName">Username:</label>
+    <input id="userName" formControlName="userName" />
+    <div *ngIf="userForm.get('userName')?.invalid && userForm.get('userName')?.touched" class="error-message">
+      Username is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" />
+    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="error-message">
+      Valid email is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number:</label>
+    <input id="phoneNumber" formControlName="phoneNumber" />
+    <div *ngIf="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched" class="error-message">
+      Phone Number is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="departmentName">Department Name:</label>
+    <input id="departmentName" formControlName="departmentName" />
+    <div *ngIf="userForm.get('departmentName')?.invalid && userForm.get('departmentName')?.touched" class="error-message">
+      Department Name is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="designation">Designation:</label>
+    <input id="designation" formControlName="designation" />
+    <div *ngIf="userForm.get('designation')?.invalid && userForm.get('designation')?.touched" class="error-message">
+      Designation is required.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="userForm.invalid" class="submit-btn">Submit</button>
+</form>
