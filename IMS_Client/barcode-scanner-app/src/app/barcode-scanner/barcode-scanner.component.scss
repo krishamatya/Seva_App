@@ -5,86 +5,113 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: #f8f9fa;
   text-align: center;
 }
 
 .scan-title {
-  font-size: 36px;
+  font-size: 28px;
+  font-weight: bold;
   color: #333;
+  margin-bottom: 15px;
+}
+
+.scan-instruction {
+  font-size: 16px;
+  color: #666;
   margin-bottom: 20px;
 }
 
-.scan-instruction p {
-  font-size: 18px;
-  color: #666;
-  margin-bottom: 30px;
+.scanner-input-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.scanner-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .scan-area {
-  width: 200px;
-  height: 200px;
-  border: 5px dashed #4CAF50;
+  width: 180px;
+  height: 180px;
+  border: 4px dashed #007bff;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   position: relative;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.scan-area:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .scan-text {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  color: #4CAF50;
+  color: #007bff;
 }
 
 .scan-animation {
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   position: absolute;
-  border: 2px solid #4CAF50;
-  animation: pulse 2s infinite ease-out;
+  border: 2px solid #007bff;
+  animation: pulse 1.8s infinite ease-out;
 }
 
 @keyframes pulse {
   0% {
-    transform: scale(0.8);
+    transform: scale(0.85);
     opacity: 1;
   }
+
   50% {
     transform: scale(1);
     opacity: 0.6;
   }
+
   100% {
-    transform: scale(0.8);
+    transform: scale(0.85);
     opacity: 1;
   }
 }
 
 .scan-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  background-color: #4CAF50;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 }
 
-.scan-button:hover {
-  background-color: #45a049;
-}
-
-.scan-button:focus {
-  outline: none;
+.scanner-result {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #333;
+  background: #ffffff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

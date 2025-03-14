@@ -2,11 +2,12 @@ import { Component, ViewChild, ElementRef, OnInit, HostListener } from '@angular
 import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BarCodeScannerService } from '../barcode-scanner.service';
+import { CommonModule } from '@angular/common';  // ✅ Import CommonModule
 
 @Component({
   selector: 'app-barcode-scanner',
   standalone: true,
-   imports: [HttpClientModule],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './barcode-scanner.component.html',
   styleUrls: ['./barcode-scanner.component.scss']
 })

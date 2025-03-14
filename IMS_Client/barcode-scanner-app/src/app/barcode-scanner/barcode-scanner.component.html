@@ -1,33 +1,24 @@
- <!-- <div>
-    <h2>Barcode Scanner</h2>
-    <input
-      type="text"
-      (keydown)="onBarcodeInput($event)"
-      #barcodeInput
-      placeholder="Scan a barcode" style="width: 100px; height: 40px;"
-      autofocus
-    />
-    @if(barcodeData){
-    <p >Scanned Barcode Data: {{ barcodeData }}</p>
-    }
-  </div> -->
- 
-
-   <div>
-    <p>{{ barcodeData }}</p>
-  </div>
-
-  <!-- scan-me.component.html -->
 <div class="scan-container">
-  <h2 class="scan-title">Scan Me</h2>
-  <div class="scan-instruction">
-    <p>Click on the button below to trigger the scan.</p>
-  </div>
-  
+  <h2 class="scan-title">Barcode Scanner</h2>
+  <p class="scan-instruction">Click the button below or scan using a barcode reader.</p>
+
   <div class="scan-area" (keydown)="handleKeyboardEvent($event)">
     <span class="scan-text">Tap to Scan</span>
     <div class="scan-animation"></div>
   </div>
-  
+
+  <div class="scanner-input-wrapper">
+    <input type="text"
+           class="scanner-input"
+           (keydown)="onBarcodeInput($event)"
+           #barcodeInput
+           placeholder="Scan a barcode..."
+           autofocus />
+  </div>
+
   <button class="scan-button" (keydown)="handleKeyboardEvent($event)">Scan Now</button>
+
+  <div class="scanner-result" *ngIf="barcodeData">
+    <p>Scanned Barcode Data: <strong>{{ barcodeData }}</strong></p>
+  </div>
 </div>
