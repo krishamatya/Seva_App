@@ -40,6 +40,20 @@
       Designation is required.
     </div>
   </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input id="password" formControlName="password"  type="password"/>
+    <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="error-message">
+      Password is required.
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="confirmpassword">Confirm Password:</label>
+    <input id="confirmpassword" formControlName="confirmpassword" type="password" />
+    <div *ngIf="userForm.get('confirmpassword')?.invalid && userForm.get('confirmpassword')?.touched" class="error-message">
+      ConfirmPassword is required.
+    </div>
+  </div>
 
   <button type="submit" [disabled]="userForm.invalid" class="submit-btn">Submit</button>
 </form>

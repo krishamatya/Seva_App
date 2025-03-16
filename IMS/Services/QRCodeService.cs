@@ -17,6 +17,7 @@ namespace IMS.Services
         private readonly AuthenticationDBContext _context;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Attendance> _attendanceRepository;
+        
         public QRCodeService(AuthenticationDBContext context,IRepository<User> userRpository,IRepository<Attendance> repository) 
         { 
             _context = context;
@@ -38,6 +39,11 @@ namespace IMS.Services
             }
         }
 
+        public async Task<User> Login(Login user) {
+            var data = await _userRepository.FindByCondition(x => x.UserName == user.userName && x.password == user.password);
+            return data;
+            
+        }
         public async Task<int> AddAttendence(Attendance attendance)
         {
             await _attendanceRepository.AddAsync(attendance);
@@ -51,6 +57,10 @@ namespace IMS.Services
         public async Task<User?> GetUserDetails(int userId)
         {
             return await _context.Users.Include(x => x.Attendances).Where(x => x.Id == userId).FirstOrDefaultAsync() ?? null;
+        }
+        public async Task<List<User>?> GetUserDetailList()
+        {
+            return await _context.Users.Include(x => x.Attendances).ToListAsync();
         }
         public byte[] GenerateQRCode(string data)
         {

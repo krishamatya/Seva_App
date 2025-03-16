@@ -3,6 +3,7 @@ using IMS.Repository;
 using IMS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Memory;
@@ -13,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AuthenticationService.Controller
@@ -23,27 +25,44 @@ namespace AuthenticationService.Controller
     {
         private readonly IQRCodeService _qrCodeService;
         private readonly IConfiguration _configuration;
-       
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        
 
-        public AuthenticationController(IQRCodeService qrCodeService, IConfiguration configuration)
+
+        public AuthenticationController(IQRCodeService qrCodeService, IConfiguration configuration,UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _qrCodeService = qrCodeService;
             _configuration = configuration;
-            
+            _userManager = userManager;
+            _signInManager = signInManager;
+
         }
         [HttpPost("register")]
-      //  [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        //  [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public async Task<IActionResult> Register([FromBody] User model)
         {
-            model.EmployeeUniqueId = QRCodeService.GenerateRandomBarcode(12);
-            var userId = await _qrCodeService.RegisterUser(model);
+            //
+            var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.password);
 
-            //after success generate BarCode 
-            string qrData = $"{model.EmployeeUniqueId}";
-            byte[] qrCodeImage = _qrCodeService.GenerateQRCode(qrData);
-            // Let the user save the QR.
-            await _qrCodeService.UpdateBarCode(Convert.ToBase64String(qrCodeImage), userId);
-            return new JsonResult(new { image = Convert.ToBase64String(qrCodeImage) });
+            if (result.Succeeded)
+            {
+
+                //
+                model.EmployeeUniqueId = QRCodeService.GenerateRandomBarcode(12);
+                var userId = await _qrCodeService.RegisterUser(model);
+
+                //after success generate BarCode 
+                string qrData = $"{model.EmployeeUniqueId}";
+                byte[] qrCodeImage = _qrCodeService.GenerateQRCode(qrData);
+                // Let the user save the QR.
+                await _qrCodeService.UpdateBarCode(Convert.ToBase64String(qrCodeImage), userId);
+                return new JsonResult(new { image = Convert.ToBase64String(qrCodeImage) });
+            }
+            else {
+                return BadRequest("Invalid data.");
+            }
 
         }
         [HttpPost("login/qr")]
@@ -95,6 +114,55 @@ namespace AuthenticationService.Controller
                 return NotFound("User not found.");
             }
             return new JsonResult(ConvertToDTO.ConvertUser(data));
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] Login loginModel)
+        {
+            
+            var user = await _userManager.FindByNameAsync(loginModel.userName);
+
+            if (user != null)
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginModel.password, false);
+
+                if (result.Succeeded)
+                {
+                    var claims = new[] { new Claim(ClaimTypes.Name, loginModel.userName) }; // Fixed CS1061: Changed 'username' to 'userName'
+                    var jwtSetting = _configuration.GetSection("JwtSetting").Get<JwtSetting>();
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.SecretKey));
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    var token = new JwtSecurityToken(
+                        issuer: jwtSetting.Issuer,
+                        audience: jwtSetting.Audience,
+                        claims: claims,
+                        expires: DateTime.Now.AddMinutes(30),
+                        signingCredentials: creds);
+
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        id = user.Id,
+                        Status = true,
+                        StatusMessage = "Login Successful"
+                    });
+                }
+            }
+            return Ok(new
+            {
+                StatusMessage = "Login Unsuccessful",
+                Status = false,
+
+            });
+
+        }
+
+        [HttpGet("GetUserList")]
+        public async Task<IActionResult> GetUserList() 
+        {
+           var data= await _qrCodeService.GetUserDetailList();
+            return new JsonResult(ConvertToDTO.ConvertUserList(data));
         }
 
     }

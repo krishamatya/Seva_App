@@ -7,6 +7,8 @@ export interface User{
     departmentName:string;
     designation:string;
     barcode:string;
+    password:string;
+    confirmpassword:string;
     attendances:Attendence[];
 
 }

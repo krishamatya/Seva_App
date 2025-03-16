@@ -41,7 +41,7 @@ export class BarcodeScannerComponent{
     this.barCodeService.loginWithBarcode(this.barcodeData).subscribe({
       next:(response) =>{
         localStorage.setItem('jwt_token', response.token);
-        this.router.navigate(['/dashboard', response.id]);
+        this.router.navigate(['/user', response.id]);
       },
       error:(error)=>{
         console.error('Login failed', error);
@@ -58,7 +58,7 @@ export class BarcodeScannerComponent{
       this.barCodeService.loginWithBarcode(this.barcodeData).subscribe({
         next:(response) =>{
           localStorage.setItem('jwt_token', response.token);
-          this.router.navigate(['/dashboard', response.id]);
+          this.router.navigate(['/user', response.id]);
         },
         error:(error)=>{
           console.error('Login failed', error);

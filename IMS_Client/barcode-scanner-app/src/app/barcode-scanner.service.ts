@@ -32,7 +32,13 @@ export class BarCodeScannerService {
     //return this.http.post<any>(`${this.apiUrl}/register`, userData, { headers });
     return this.http.post(`${this.apiUrl}/register`, userData, {headers});
   }
+  login(userData: User): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
   
+    return this.http.post(`${this.apiUrl}/login`, userData, {headers});
+  }
  
   
   getDashBoard(id:number):Observable<User> 
@@ -52,5 +58,24 @@ export class BarCodeScannerService {
       );
      // return  this.http.get<User>(this.apiUrl+'/dashboard/?id=${this.id}');
     }
+
+    getUser():Observable<User> 
+    {
+      const token = localStorage.getItem('jwt_token');
+      const url = this.apiUrl+`/login`;
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}` // Replace with your actual token
+      });
+  
+      return this.http.get<User>(url, { headers }).pipe(
+        map(response => {
+          // Transform the response if needed
+          return response as User;
+        })
+      );
+     // return  this.http.get<User>(this.apiUrl+'/dashboard/?id=${this.id}');
+    }
+   
   
 }

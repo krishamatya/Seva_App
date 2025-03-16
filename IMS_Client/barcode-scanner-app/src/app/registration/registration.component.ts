@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -45,6 +44,8 @@ console.log('Form Value Changed:', value);
       departmentName: ['', Validators.required],
       designation: ['', Validators.required],
       barcode: [null],
+      password:['',Validators.required],
+      confirmpassword:['',Validators.required]
   
     });
   }

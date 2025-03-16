@@ -5,11 +5,9 @@ import { importProvidersFrom } from '@angular/core'; // Import importProvidersFr
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
-//import { AuthInterceptor } from './app/interceptors/auth.service';// interceptor didnt attach to dashboard
 
 bootstrapApplication(AppComponent, {
   providers: [
-    //provideHttpClient(withInterceptors([AuthInterceptor])),
     importProvidersFrom(HttpClientModule,ReactiveFormsModule,RouterModule.forRoot(routes)) // Provide HttpClientModule
   ]
 }).catch(err => console.error(err));

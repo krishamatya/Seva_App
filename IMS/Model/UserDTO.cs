@@ -18,6 +18,7 @@ namespace IMS.Model
         public string Designation { get; set; }
         public string barcode { get; set; }
        
+        public string password { get; set; }
         public List<AttendanceDTO>? Attendances { get; set; }
 
     }
