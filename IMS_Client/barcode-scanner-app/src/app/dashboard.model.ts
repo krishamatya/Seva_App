@@ -8,7 +8,6 @@ export interface User{
     designation:string;
     barcode:string;
     password:string;
-    confirmpassword:string;
     attendances:Attendence[];
 
 }

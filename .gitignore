@@ -4,3 +4,9 @@
 /IMS_Client/node_modules
 /IMS/node_modules
 /IMS/Migrations
+/IMS_Client/barcode-scanner-app/.angular/cache/18.2.14/barcode-scanner-app/.tsbuildinfo
+/IMS_Client/barcode-scanner-app/.angular/cache/18.2.14/barcode-scanner-app/angular-compiler.db
+/IMS_Client/barcode-scanner-app/node_modules/.bin
+/IMS_Client/barcode-scanner-app/node_modules
+/IMS_Client/barcode-scanner-app/dist
+/IMS_Client/barcode-scanner-app/.angular

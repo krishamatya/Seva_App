@@ -9,14 +9,22 @@
           <tr>
             <th>ID</th>
             <th>UserName</th>
+            <th>Email</th>
             <th>Department</th>
+            <th>Phone</th>
+            <th>Designation</th>
+            
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let u of user; trackBy: trackByItemId">
             <td>{{ u.userId }}</td>
             <td>{{ u.userName| uppercase }}</td>
+            <td>{{u.email}}</td>
             <td>{{u.departmentName|uppercase}}</td>
+            <td>{{u.phoneNumber}}</td>
+            <td>{{u.designation|uppercase}}</td>
+          
           </tr>
         </tbody>
       </table>
@@ -30,6 +38,6 @@
   <ng-template #loading>
     <p>Loading user details...</p>
   </ng-template>
-@if(this.roles !="Client"){
+@if(this.roles !="Client" && this.roles!="reception" ){
   <app-footer></app-footer>
 }
