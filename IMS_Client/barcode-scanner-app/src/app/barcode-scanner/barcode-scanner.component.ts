@@ -12,32 +12,23 @@ import { CommonModule } from '@angular/common';  // ✅ Import CommonModule
   styleUrls: ['./barcode-scanner.component.scss']
 })
 export class BarcodeScannerComponent{
-//  @ViewChild('barcodeInput', { static: false }) barcodeInput!: ElementRef;
   barcodeData: string = ''; // Holds the scanned barcode data
   scannedText:string='';
   buffer: string = ''; // Temporary storage for characters being scanned
 
   constructor(private http: HttpClient, private router: Router,private barCodeService:BarCodeScannerService) {}
 
-  // ngAfterViewInit() {
-  //   // Automatically focus on the input field when the component loads
-  //   this.barcodeInput.nativeElement.focus();
-  // }
-
    @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    // Check if the key pressed is not a modifier key (e.g., Shift, Ctrl, Alt)
     if (event.key.length === 1) {
       this.barcodeData += event.key;
     }
-    // Assuming the scanner sends an 'Enter' key at the end of the scan
     if (event.key === 'Enter') {
       this.processScannedText();
     }
   }
 
   processScannedText() {
-    // Process the scanned text as needed
     this.barCodeService.loginWithBarcode(this.barcodeData).subscribe({
       next:(response) =>{
         localStorage.setItem('jwt_token', response.token);

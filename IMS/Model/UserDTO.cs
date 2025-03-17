@@ -9,7 +9,7 @@ namespace IMS.Model
     public class UserDTO
     {
       
-        public int? Id { get; set; }
+        public string? userId { get; set; }
         public string EmployeeUniqueId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }

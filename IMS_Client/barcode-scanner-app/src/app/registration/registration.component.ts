@@ -16,6 +16,7 @@ export class RegistrationComponent implements OnInit{
   userForm!: FormGroup;
   base64String: string='';
   imageSrc: string | null = null;
+  selectedroles:string|null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -26,17 +27,20 @@ export class RegistrationComponent implements OnInit{
   
   ngOnInit(): void {
     this.initializeForm();
-    this.userForm.valueChanges.pipe(
-        debounceTime(300), // Wait for 300ms after each keystroke
-        distinctUntilChanged() // Only emit if the value has changed
+    this.userForm.valueChanges.pipe( debounceTime(300), // Wait for 300ms after each keystroke
+    distinctUntilChanged() // Only emit if the value has changed
       ).subscribe((value) => {
 console.log('Form Value Changed:', value);
+      });
+
+      this.userForm.get('roles')?.valueChanges.subscribe(value => {
+         this.selectedroles = value;
       });
   }
 
  initializeForm(){
     this.userForm = this.fb.group({
-      id: [null], // Optional, since it might be auto-generated
+      userId: [null], // Optional, since it might be auto-generated
       employeeUniqueId: [null],
       userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -44,11 +48,12 @@ console.log('Form Value Changed:', value);
       departmentName: ['', Validators.required],
       designation: ['', Validators.required],
       barcode: [null],
-      password:['',Validators.required],
-      confirmpassword:['',Validators.required]
-  
+      password:[null],
+      roles:['reception',Validators.required]
     });
   }
+
+  
   onSubmit() {
     if (this.userForm.invalid) {
       return;
@@ -79,4 +84,5 @@ console.log('Form Value Changed:', value);
       document.body.removeChild(link);
     }
   }
+ 
 }

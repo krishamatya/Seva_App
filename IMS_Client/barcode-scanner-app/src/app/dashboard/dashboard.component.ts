@@ -1,34 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
 import { BarCodeScannerService } from '../barcode-scanner.service';
-import { User,Attendence } from '../dashboard.model';
+import { User } from '../dashboard.model';
 import { CommonModule } from '@angular/common';
+import { BarcodeScannerComponent } from "../barcode-scanner/barcode-scanner.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HttpClientModule,CommonModule],
+  imports: [HttpClientModule, CommonModule, BarcodeScannerComponent, FooterComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   user: User[]=[];
-  id: number | null = null;
+  userId: string | null = null;
   count:number|null=null;
   isLoading = true;
+  roles:string|null=null;
 
   constructor(private http: HttpClient, private route: ActivatedRoute,private barCodeService:BarCodeScannerService) {
-    this.route.params.subscribe(params => {
-      this.id = params['id']; // Get the id from the route
+       
+  }
+  ngOnInit(): void {
+      this.barCodeService.getLoginInfo().subscribe((user)=>{
+        if(user){
+          this.userId = user.userId,
+          this.roles = user.roles;
+        }
+      });
       this.fetchDashboardData();
-    });
-  
   }
 
   fetchDashboardData() {
-    if (this.id === null) return;
-    this.barCodeService.getDashBoard(this.id).subscribe({
+    if (this.userId === null) return;
+    this.barCodeService.getUser(this.userId).subscribe({
       next:(response) =>{
         if(Array.isArray(response)){
         this.user = response;
@@ -45,5 +53,9 @@ export class DashboardComponent {
       }
     });
    
+  }
+
+  trackByItemId(index: number, item: any): number {
+    return item.id;
   }
 }

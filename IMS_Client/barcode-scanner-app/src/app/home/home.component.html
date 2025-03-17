@@ -1,6 +1,3 @@
-<header  *ngIf="this.isLoggedIn">
-  <app-nav></app-nav>
-  </header>
 
 <div class="home-container">
   <main class="home-content">
@@ -19,7 +16,7 @@
           <label for="password">Password:</label>
           <input id="password" formControlName="password" type="password" />
           <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
-            Valid email is required.
+            Valid password is required.
           </div>
         </div>
         <button type="submit" [disabled]="loginForm.invalid" class="submit-btn">Submit</button>

@@ -2,18 +2,18 @@
 {
     public static class ConvertToDTO
     {
-        public static UserDTO ConvertUser(User user)
+        public static UserDTO ConvertUser(ApplicationUser user)
         {
             var userDTO = new UserDTO
             {
                 Attendances = user.Attendances != null ? user.Attendances.Select(a => new AttendanceDTO
                 {
-                    Id = a.Id,
+                    Id = a.AttendanceId,
                     CheckInDate = a.CheckInDate,
                     CheckOutTime = a.CheckOutTime
                 }).ToList() : null,
                 barcode = user.barcode,
-                Id = user.Id,
+                userId = user.UserId,
                 EmployeeUniqueId = user.EmployeeUniqueId,
                 UserName = user.UserName,
                 Email = user.Email,
@@ -24,7 +24,7 @@
 
             return userDTO;
         }
-        public static List<UserDTO> ConvertUserList(List<User> u)
+        public static List<UserDTO> ConvertUserList(List<ApplicationUser> u)
         {
             List<UserDTO> userDTO = new List<UserDTO>();
             u.ForEach(x =>
@@ -34,12 +34,12 @@
                 {
                     Attendances = x.Attendances != null ? x.Attendances.Select(a => new AttendanceDTO
                     {
-                        Id = a.Id,
+                        Id = a.AttendanceId,
                         CheckInDate = a.CheckInDate,
                         CheckOutTime = a.CheckOutTime
                     }).ToList() : null,
                     barcode = x.barcode,
-                    Id = x.Id,
+                    userId = x.UserId,
                     EmployeeUniqueId = x.EmployeeUniqueId,
                     UserName = x.UserName,
                     Email = x.Email,

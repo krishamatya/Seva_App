@@ -28,7 +28,7 @@ var jwtSetting = builder.Configuration.GetSection("JwtSetting").Get<JwtSetting>(
 
 builder.Services.AddDbContext<AuthenticationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IMSConnection")));
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, ApplicationRoles>()
            .AddEntityFrameworkStores<AuthenticationDBContext>()
            .AddDefaultTokenProviders();
 
@@ -46,8 +46,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ClockSkew = TimeSpan.Zero
     };
 });
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("NurseOnly", policy => policy.RequireRole("Nurse"));
+    options.AddPolicy("ClientOnly", policy => policy.RequireRole("Client"));
+});
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IQRCodeService, QRCodeService>();
 
 var app = builder.Build();
@@ -62,26 +69,36 @@ app.UseCors("CORSPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseStaticFiles();
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var serviceProvider = scope.ServiceProvider;
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRoles>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    string[] roleNames = { "Admin", "Nurse","Client","Reception" };
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+            await roleManager.CreateAsync(new ApplicationRoles { Name = roleName });
+        }
+    }
+
+    // Optional: Create an admin user and assign roles
+    var adminUser = await userManager.FindByEmailAsync("admin@gmail.com");
+    if (adminUser == null)
+    {
+        var user = new ApplicationUser { UserName = "admin", Email = "admin@gmail.com" };
+        var result = await userManager.CreateAsync(user, "admin@2025");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
 }
-app.UseCors("CORSPolicy");
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseStaticFiles();
-
 app.MapControllers();
-
 app.Run();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-app.UseStaticFiles();
-app.MapControllers();
 
-app.Run();
+

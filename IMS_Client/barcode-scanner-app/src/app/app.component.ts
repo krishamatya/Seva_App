@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from './footer/footer.component';
+import { NavComponent } from "./nav/nav.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FooterComponent, CommonModule, ZXingScannerModule, RouterModule],
+  imports: [NavComponent, CommonModule, ZXingScannerModule, RouterModule, NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

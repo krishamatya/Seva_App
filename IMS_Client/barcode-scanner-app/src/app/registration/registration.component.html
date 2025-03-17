@@ -40,19 +40,20 @@
       Designation is required.
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group" *ngIf="this.selectedroles !='Client'">
     <label for="password">Password:</label>
     <input id="password" formControlName="password"  type="password"/>
     <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="error-message">
-      Password is required.
+     Invalid Password
     </div>
   </div>
   <div class="form-group">
-    <label for="confirmpassword">Confirm Password:</label>
-    <input id="confirmpassword" formControlName="confirmpassword" type="password" />
-    <div *ngIf="userForm.get('confirmpassword')?.invalid && userForm.get('confirmpassword')?.touched" class="error-message">
-      ConfirmPassword is required.
-    </div>
+    <label for="roles">Role</label>
+    <select id="roles" formControlName="roles">
+      <option value="Nurse">Nurse</option>
+      <option value="Client">Client</option>
+      <option value="reception">Reception</option>
+    </select>
   </div>
 
   <button type="submit" [disabled]="userForm.invalid" class="submit-btn">Submit</button>

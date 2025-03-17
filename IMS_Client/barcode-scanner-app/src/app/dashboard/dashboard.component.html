@@ -1,4 +1,5 @@
-<!-- user-details.component.html -->
+
+<app-barcode-scanner></app-barcode-scanner>
  
 <div *ngIf="user; else loading" class="user-details">
     <h2>User Details</h2>
@@ -7,13 +8,15 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Check-In Date</th>
+            <th>UserName</th>
+            <th>Department</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let u of user trackby:userid">
-            <td>{{ u.id }}</td>
+          <tr *ngFor="let u of user; trackBy: trackByItemId">
+            <td>{{ u.userId }}</td>
             <td>{{ u.userName| uppercase }}</td>
+            <td>{{u.departmentName|uppercase}}</td>
           </tr>
         </tbody>
       </table>
@@ -27,3 +30,6 @@
   <ng-template #loading>
     <p>Loading user details...</p>
   </ng-template>
+@if(this.roles !="Client"){
+  <app-footer></app-footer>
+}

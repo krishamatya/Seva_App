@@ -8,7 +8,7 @@ import { UserComponent } from './user/user.component';
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'register', component: RegistrationComponent },
-    { path:'dashboard/:id',component:DashboardComponent,canActivate: [AuthGuard]},
+    { path:'dashboard',component:DashboardComponent,canActivate: [AuthGuard]},
     { path:'barcodescanner',component:BarcodeScannerComponent},
-    { path:'user',component:UserComponent}
+    { path:'user/:userId',component:UserComponent}
 ];

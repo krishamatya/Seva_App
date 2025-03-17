@@ -5,9 +5,9 @@ namespace IMS.Model
     public class Attendance
     {
         [Key]
-        public int Id { get; set; }
-        public int? UId { get; set; }
-        public User User { get; set; }
+        public int AttendanceId { get; set; }
+        public string? UserId { get; set; }
+        public ApplicationUser User { get; set; }
         public DateTime? CheckInDate { get; set; }
         public DateTime? CheckOutTime { get; set; }
 

@@ -15,23 +15,23 @@ namespace IMS.Services
     public class QRCodeService : IQRCodeService
     {
         private readonly AuthenticationDBContext _context;
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<ApplicationUser> _userRepository;
         private readonly IRepository<Attendance> _attendanceRepository;
         
-        public QRCodeService(AuthenticationDBContext context,IRepository<User> userRpository,IRepository<Attendance> repository) 
+        public QRCodeService(AuthenticationDBContext context,IRepository<ApplicationUser> userRpository,IRepository<Attendance> repository) 
         { 
             _context = context;
             _userRepository = userRpository;
             _attendanceRepository = repository;
         }
-        public async Task<int?> RegisterUser(User model)
+        //public async Task<int?> RegisterUser(User model)
+        //{
+        //    await _userRepository.AddAsync(model);
+        //    return model.Id;
+        //}
+        public async Task UpdateBarCode(string data, string? id)
         {
-            await _userRepository.AddAsync(model);
-            return model.Id;
-        }
-        public async Task UpdateBarCode(string data, int? id)
-        {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var user = _context.ApplicationUsers.FirstOrDefault(x => x.UserId == id);
             if (user != null)
             {
                 user.barcode = data;
@@ -39,28 +39,38 @@ namespace IMS.Services
             }
         }
 
-        public async Task<User> Login(Login user) {
+        public async Task<ApplicationUser> Login(Login user) {
             var data = await _userRepository.FindByCondition(x => x.UserName == user.userName && x.password == user.password);
             return data;
             
         }
+
+        public async Task<string> UserCount()
+        {
+            var userCount = await _context.ApplicationUsers.CountAsync();
+            string userId = "USR" + (userCount + 1).ToString().PadLeft(6, '0');
+
+            return userId;
+
+        }
+
         public async Task<int> AddAttendence(Attendance attendance)
         {
             await _attendanceRepository.AddAsync(attendance);
-            return attendance.Id;
+            return attendance.AttendanceId;
         }
-        public async Task<Attendance?> CheckAttendence(int? id )
+        public async Task<Attendance?> CheckAttendence(string? id )
         {
-            return await _context.Attendances.Where(x=>x.UId == id && x.CheckInDate!=null).FirstOrDefaultAsync() ?? null;
+            return await _context.Attendances.Where(x=>x.UserId == id && x.CheckInDate!=null).FirstOrDefaultAsync() ?? null;
             
         }
-        public async Task<User?> GetUserDetails(int userId)
+        public async Task<ApplicationUser?> GetUserDetails(string userId)
         {
-            return await _context.Users.Include(x => x.Attendances).Where(x => x.Id == userId).FirstOrDefaultAsync() ?? null;
+            return await _context.ApplicationUsers.Include(x => x.Attendances).Where(x => x.UserId == userId).FirstOrDefaultAsync() ?? null;
         }
-        public async Task<List<User>?> GetUserDetailList()
+        public async Task<List<ApplicationUser>?> GetUserDetailList(string userId)
         {
-            return await _context.Users.Include(x => x.Attendances).ToListAsync();
+            return await _context.ApplicationUsers.Include(x => x.Attendances).Where(x=>x.UserId != userId).ToListAsync();
         }
         public byte[] GenerateQRCode(string data)
         {
@@ -88,7 +98,7 @@ namespace IMS.Services
             }
             
         }
-        public async Task<User?> VerifyQRCode(string base64String)
+        public async Task<ApplicationUser?> VerifyQRCode(string base64String)
         {
              return await _userRepository.FindByCondition(x=>x.EmployeeUniqueId == base64String);
                

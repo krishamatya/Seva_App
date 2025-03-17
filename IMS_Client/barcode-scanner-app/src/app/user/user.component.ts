@@ -14,21 +14,21 @@ import { CommonModule } from '@angular/common';
 })
 export class UserComponent {
   user: User | undefined;
-  id: number | null = null;
+  userId: string | null = null;
   count:number|null=null;
   isLoading = true;
 
   constructor(private http: HttpClient, private route: ActivatedRoute,private barCodeService:BarCodeScannerService) {
     this.route.params.subscribe(params => {
-      this.id = params['id']; // Get the id from the route
+      this.userId = params['userId']; // Get the id from the route
       this.fetchUserData();
     });
   
   }
 
   fetchUserData() {
-    if (this.id === null) return;
-    this.barCodeService.getDashBoard(this.id).subscribe({
+    if (this.userId === null) return;
+    this.barCodeService.getUserInfo(this.userId).subscribe({
       next:(response) =>{
         this.user = response;
         this.count=this.user.attendances.length;

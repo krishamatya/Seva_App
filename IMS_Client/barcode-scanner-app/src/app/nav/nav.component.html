@@ -2,13 +2,13 @@
 <header>
   <nav>
     <div class="logo">
-      <a routerLink="">Web Application</a>
+      <button (click)="goback()">E- Seva</button>
     </div>
-    <div class="menu-icon" (click)="toggleMenu()">
+     <div class="menu-icon" (click)="toggleMenu()">
       <i class="fas fa-bars"></i>
     </div>
     <ul [class.active]="isMenuOpen">
-      <li><a routerLink="/barcodescanner">ScanMe</a></li>
-    </ul>
+      <li><button (click)="logout()">Logout</button></li>
+    </ul> 
   </nav>
 </header>

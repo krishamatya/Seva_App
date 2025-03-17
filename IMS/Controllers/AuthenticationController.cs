@@ -25,39 +25,44 @@ namespace AuthenticationService.Controller
     {
         private readonly IQRCodeService _qrCodeService;
         private readonly IConfiguration _configuration;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRoles> _roleManager;
 
 
-        public AuthenticationController(IQRCodeService qrCodeService, IConfiguration configuration,UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AuthenticationController(IQRCodeService qrCodeService, IConfiguration configuration,
+            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRoles> roleManager)
         {
             _qrCodeService = qrCodeService;
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
-
+            _roleManager = roleManager;
         }
         [HttpPost("register")]
         //  [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-        public async Task<IActionResult> Register([FromBody] User model)
+        public async Task<IActionResult> Register([FromBody] ApplicationUser model)
         {
-            //
-            var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.password);
+            
+             var result = await _userManager.CreateAsync(model, model.password);
 
             if (result.Succeeded)
             {
-
-                //
                 model.EmployeeUniqueId = QRCodeService.GenerateRandomBarcode(12);
-                var userId = await _qrCodeService.RegisterUser(model);
+                model.UserId = await _qrCodeService.UserCount();
+                await _userManager.UpdateAsync(model);
+
+                if (!await _roleManager.RoleExistsAsync(model.Roles))
+                {
+                    await _roleManager.CreateAsync(new ApplicationRoles { Name = model.Roles });
+                }
+                await _userManager.AddToRoleAsync(model, model.Roles);
 
                 //after success generate BarCode 
                 string qrData = $"{model.EmployeeUniqueId}";
                 byte[] qrCodeImage = _qrCodeService.GenerateQRCode(qrData);
                 // Let the user save the QR.
-                await _qrCodeService.UpdateBarCode(Convert.ToBase64String(qrCodeImage), userId);
+                await _qrCodeService.UpdateBarCode(Convert.ToBase64String(qrCodeImage),model.UserId);
                 return new JsonResult(new { image = Convert.ToBase64String(qrCodeImage) });
             }
             else {
@@ -73,12 +78,12 @@ namespace AuthenticationService.Controller
 
             if (data != null)
             {
-                var record = _qrCodeService.CheckAttendence(data.Id);
+                var record = _qrCodeService.CheckAttendence(data.UserId);
                 if (record.Result == null)
                 {
                     await _qrCodeService.AddAttendence(new Attendance
                     {
-                        UId = data.Id,
+                        UserId = data.UserId,
                         CheckInDate = DateTime.Now
                     });
                 }
@@ -106,9 +111,9 @@ namespace AuthenticationService.Controller
         }
         [Authorize]
         [HttpGet("dashboard")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string userId)
         {
-            var data = await _qrCodeService.GetUserDetails(id);
+            var data = await _qrCodeService.GetUserDetails(userId);
             if (data == null)
             {
                 return NotFound("User not found.");
@@ -143,7 +148,8 @@ namespace AuthenticationService.Controller
                     return Ok(new
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(token),
-                        id = user.Id,
+                        userId = user.UserId,
+                        roles = user.Roles,
                         Status = true,
                         StatusMessage = "Login Successful"
                     });
@@ -159,10 +165,10 @@ namespace AuthenticationService.Controller
         }
 
         [HttpGet("GetUserList")]
-        public async Task<IActionResult> GetUserList() 
+        public async Task<IActionResult> GetUserList(string userId) 
         {
-           var data= await _qrCodeService.GetUserDetailList();
-            return new JsonResult(ConvertToDTO.ConvertUserList(data));
+           var data= await _qrCodeService.GetUserDetailList(userId);
+           return new JsonResult(ConvertToDTO.ConvertUserList(data));
         }
 
     }

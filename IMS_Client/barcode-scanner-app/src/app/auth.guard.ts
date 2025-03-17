@@ -7,17 +7,24 @@ import { BarCodeScannerService } from './barcode-scanner.service';
     providedIn:'root'
 })
 export class AuthGuard implements CanActivate{
-
+  isreturn:boolean=false;
     constructor (private router:Router,private barCodeService:BarCodeScannerService){
  
     }
     //user is allowed to access a route based on some condition.
-    canActivate(): boolean {
-        if (localStorage.getItem('isLoggedIn')=== 'true') {
-          return true;
-        } else {
-          this.router.navigate(['/login']);
-          return false;
+    canActivate(): boolean 
+    {
+      
+      this.barCodeService.getLoginInfo().subscribe((user)=>{
+        if(user){
+          this.isreturn = true;
         }
+        else{
+          this.router.navigate(['']);
+         this.isreturn = false;
+        }
+      });
+         return this.isreturn;
+        
       }
     }

@@ -5,12 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BarCodeScannerService } from '../barcode-scanner.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavComponent,CommonModule, ReactiveFormsModule], 
+  imports: [CommonModule, ReactiveFormsModule], 
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -19,6 +18,7 @@ export class HomeComponent implements OnInit
   loginForm!: FormGroup;
   id: number | null = null;
   isLoggedIn : boolean = false;
+  selectedRoles:string| null = null;
   constructor(private fb:FormBuilder,private router:Router,private route: ActivatedRoute,public barCodeService:BarCodeScannerService){
   }
 
@@ -30,16 +30,11 @@ export class HomeComponent implements OnInit
       ).subscribe((value) => {
 console.log('Form Value Changed:', value);
       });
-
-      if(localStorage.getItem('isLoggedIn') === 'true') 
-        this.isLoggedIn = true;
-      else
-      this.isLoggedIn = false;
   }
 
   initializeForm(){
     this.loginForm = this.fb.group({
-      id: [0], 
+      userId: [0], 
       userName: ['', Validators.required],
       password: ['', Validators.required],
     });
@@ -53,14 +48,17 @@ console.log('Form Value Changed:', value);
     const user = this.loginForm.value;
     this.barCodeService.login(user).subscribe({
       next:(response)=>
-        {         
-          localStorage.setItem('isLoggedIn', 'true'); // Persist session
-          this.router.navigate(['/dashboard', user.id]); // Redirect to login page after registration
+        {                
+          const user = {
+            userId: response.userId,
+            roles: response.roles
+          };
+          this.barCodeService.setLoginInfo(user);
+          this.router.navigate(['/dashboard']); // Redirect to login page after registration
         },
       error:(error)=>
         {
           console.error('Login failed', error);
-          localStorage.removeItem('isLoggedIn');
           this.router.navigate([''])
         }
   })
