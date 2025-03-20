@@ -70,7 +70,7 @@ export class BarCodeScannerService {
   getUserInfo(userId:string):Observable<User> 
     {
       const token = localStorage.getItem('jwt_token');
-      const url = this.apiUrl+`/dashboard/?userId=${userId}`;
+      const url = this.apiUrl+`/getUserInfo/?userId=${userId}`;
 
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}` // Replace with your actual token

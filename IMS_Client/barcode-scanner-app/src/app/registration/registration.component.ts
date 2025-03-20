@@ -83,7 +83,7 @@ export class RegistrationComponent implements OnInit {
         this.base64String = response.image;
         this.imageSrc = `data:image/png;base64,${this.base64String}`;
         this.downloadImage();
-        this.router.navigate(['']); // Redirect to login page
+        this.router.navigate(['/dashboard']); // Redirect to login page
       },
       error: (error) => {
         console.error('Registration failed:', error);

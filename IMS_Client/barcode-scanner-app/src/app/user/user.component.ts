@@ -20,7 +20,7 @@ export class UserComponent {
 
   constructor(private http: HttpClient, private route: ActivatedRoute,private barCodeService:BarCodeScannerService) {
     this.route.params.subscribe(params => {
-      this.userId = params['userId']; // Get the id from the route
+      this.userId = params['Id']; // Get the id from the route
       this.fetchUserData();
     });
   

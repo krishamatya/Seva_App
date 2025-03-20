@@ -10,5 +10,5 @@ export const routes: Routes = [
     { path: 'register', component: RegistrationComponent },
     { path:'dashboard',component:DashboardComponent,canActivate: [AuthGuard]},
     { path:'barcodescanner',component:BarcodeScannerComponent},
-    { path:'user/:userId',component:UserComponent}
+    { path:'user/:Id',component:UserComponent}
 ];
