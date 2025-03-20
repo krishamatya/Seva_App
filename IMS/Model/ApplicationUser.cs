@@ -12,7 +12,7 @@ namespace IMS.Model
         public string DepartmentName { get; set; } = string.Empty;
         public string Designation { get; set; } = string.Empty;
         public string? barcode { get; set; }
-        public string password { get; set; } = string.Empty;
+        public string? password { get; set; } 
 
         public string Roles { get; set; }
         public ICollection<Attendance>? Attendances { get; set; }

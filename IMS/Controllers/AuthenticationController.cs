@@ -43,8 +43,16 @@ namespace AuthenticationService.Controller
         //  [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public async Task<IActionResult> Register([FromBody] ApplicationUser model)
         {
-            
-             var result = await _userManager.CreateAsync(model, model.password);
+            IdentityResult result = new IdentityResult();
+            if (model.Roles == "Client")
+            {
+                result = await _userManager.CreateAsync(model);
+
+            }
+            else
+            {
+                result = await _userManager.CreateAsync(model, model.password);
+            }
 
             if (result.Succeeded)
             {
@@ -131,6 +139,7 @@ namespace AuthenticationService.Controller
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login loginModel)
         {
+
             
             var user = await _userManager.FindByNameAsync(loginModel.userName);
 
