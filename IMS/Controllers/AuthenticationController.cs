@@ -117,15 +117,15 @@ namespace AuthenticationService.Controller
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    id = data.Id
+                    id = data.UserId
                 });
 
             }
 
             return Unauthorized("Invalid QR Code.");
         }
-        [Authorize]
-        [HttpGet("dashboard")]
+       
+        [HttpGet("getUserInfo")]
         public async Task<IActionResult> Get(string userId)
         {
             var data = await _qrCodeService.GetUserDetails(userId);
