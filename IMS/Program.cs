@@ -90,10 +90,16 @@ using (var scope = app.Services.CreateScope())
     var adminUser = await userManager.FindByEmailAsync("admin@gmail.com");
     if (adminUser == null)
     {
-        var user = new ApplicationUser { UserName = "admin", Email = "admin@gmail.com" };
-        var result = await userManager.CreateAsync(user, "admin@2025");
+        var user = new ApplicationUser { UserName = "admin", Email = "admin@gmail.com", Roles = "Admin" };
+        user.EmployeeUniqueId = QRCodeService.GenerateRandomBarcode(12);
+        var userCount = 0;
+        string userId = "USR" + (userCount + 1).ToString().PadLeft(6, '0');
+        user.UserId = userId;
+        var result = await userManager.CreateAsync(user, "Admin@2025");
+       
         if (result.Succeeded)
         {
+            
             await userManager.AddToRoleAsync(user, "Admin");
         }
     }

@@ -60,10 +60,17 @@ namespace AuthenticationService.Controller
 
                 //after success generate BarCode 
                 string qrData = $"{model.EmployeeUniqueId}";
-                byte[] qrCodeImage = _qrCodeService.GenerateQRCode(qrData);
-                // Let the user save the QR.
-                await _qrCodeService.UpdateBarCode(Convert.ToBase64String(qrCodeImage),model.UserId);
-                return new JsonResult(new { image = Convert.ToBase64String(qrCodeImage) });
+                if (model.Roles == "Client")
+                {
+                    byte[] qrCodeImage = _qrCodeService.GenerateQRCode(qrData);
+                    // Let the user save the QR.
+                    await _qrCodeService.UpdateBarCode(Convert.ToBase64String(qrCodeImage), model.UserId);
+                    return new JsonResult(new { image = Convert.ToBase64String(qrCodeImage) });
+                }
+                else {
+                    return new JsonResult(new { image = string.Empty, StatusCode = 200,Message="Registered Successfully" });
+                }
+
             }
             else {
                 return BadRequest("Invalid data.");

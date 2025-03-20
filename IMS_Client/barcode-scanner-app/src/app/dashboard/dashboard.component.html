@@ -1,5 +1,7 @@
 
+@if(this.roles == 'reception'){
 <app-barcode-scanner></app-barcode-scanner>
+}
  
 <div *ngIf="user; else loading" class="user-details">
     <h2>User Details</h2>
