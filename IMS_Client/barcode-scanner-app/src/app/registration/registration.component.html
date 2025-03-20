@@ -1,4 +1,3 @@
-<!-- user-form.component.html -->
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
   <h2 class="form-title">User Information Form</h2>
   <div class="form-group">
@@ -40,13 +39,15 @@
       Designation is required.
     </div>
   </div>
-  <div class="form-group" *ngIf="this.selectedroles !='Client'">
+
+  <div class="form-group" *ngIf="selectedroles !== 'Client'">
     <label for="password">Password:</label>
-    <input id="password" formControlName="password"  type="password"/>
+    <input id="password" formControlName="password" type="password"/>
     <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="error-message">
      Invalid Password
     </div>
   </div>
+
   <div class="form-group">
     <label for="roles">Role</label>
     <select id="roles" formControlName="roles">

@@ -1,73 +1,74 @@
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  nav ul li {
-    margin: 0 10px;
-  }
-  
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
+header, footer {
+  background: linear-gradient(135deg, #444, #222); // Dark grey gradient
+  color: #f0f0f0;
+  padding: 15px 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px; // Adjust based on your logo size
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin: 150 15px;
+}
+
+nav ul li button {
+  background: transparent;
+  color: #f0f0f0;
+  border: 2px solid #888;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+nav ul li button:hover {
+  background: #666;
+  color: #fff;
+  border-color: #fff;
+}
+
+.menu-icon {
+  display: none;
+  color: #f0f0f0;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
     display: block;
   }
-  
-  nav ul li a:hover {
-    background-color: #575757;
-    border-radius: 4px;
-  }
-  
-  .menu-icon {
+
+  nav ul {
     display: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+    flex-direction: column;
+    width: 100%;
+    background: #222;
+    position: absolute;
+    top: 60px;
+    left: 0;
   }
-  
-  @media (max-width: 768px) {
-    .menu-icon {
-      display: block;
-    }
-  
-    nav ul {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      background-color: #333;
-      position: absolute;
-      top: 60px;
-      left: 0;
-    }
-  
-    nav ul.active {
-      display: flex;
-    }
-  
-    nav ul li {
-      text-align: center;
-      margin: 10px 0;
-    }
+
+  nav ul.active {
+    display: flex;
   }
+
+  nav ul li {
+    text-align: center;
+    margin: 10px 0;
+  }
+}

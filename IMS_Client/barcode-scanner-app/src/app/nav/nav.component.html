@@ -1,14 +1,14 @@
-
 <header>
   <nav>
     <div class="logo">
-      <button (click)="goback()">E- Seva</button>
+      <img src="logo.png" alt="Logo">
     </div>
-     <div class="menu-icon" (click)="toggleMenu()">
+    <div class="demo-text">THIS IS A DEMO</div>
+    <ul [class.active]="isMenuOpen">
+      <li><button class="logout-btn" (click)="logout()">Logout</button></li>
+    </ul> 
+    <div class="menu-icon" (click)="toggleMenu()">
       <i class="fas fa-bars"></i>
     </div>
-    <ul [class.active]="isMenuOpen">
-      <li><button (click)="logout()">Logout</button></li>
-    </ul> 
   </nav>
 </header>

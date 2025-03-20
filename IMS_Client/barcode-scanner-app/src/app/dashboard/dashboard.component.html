@@ -4,34 +4,39 @@
 }
  
 <div *ngIf="user; else loading" class="user-details">
-    <h2>User Details</h2>
-    <div *ngIf="user; else noUser">
-      <table class="user-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>UserName</th>
-            <th>Department</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let u of user; trackBy: trackByItemId">
-            <td>{{ u.userId }}</td>
-            <td>{{ u.userName| uppercase }}</td>
-            <td>{{u.departmentName|uppercase}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <ng-template #noUser>
-      <p>No User records found.</p>
-    </ng-template>
+  <h2 class="header">User Details</h2>
+  <div *ngIf="user; else noUser">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>UserName</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Phone</th>
+          <th>Designation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of user; trackBy: trackByItemId">
+          <td>{{ u.userId }}</td>
+          <td>{{ u.userName | uppercase }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.departmentName | uppercase }}</td>
+          <td>{{ u.phoneNumber }}</td>
+          <td>{{ u.designation | uppercase }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
-  <ng-template #loading>
-    <p>Loading user details...</p>
+
+  <ng-template #noUser>
+    <p>No User records found.</p>
   </ng-template>
-@if(this.roles !="Client"){
-  <app-footer></app-footer>
-}
+</div>
+
+<ng-template #loading>
+  <p>Loading user details...</p>
+</ng-template>
+
+<app-footer *ngIf="this.roles != 'Client' && this.roles != 'reception'"></app-footer>

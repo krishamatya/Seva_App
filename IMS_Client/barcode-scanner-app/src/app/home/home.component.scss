@@ -5,46 +5,42 @@
   box-sizing: border-box;
 }
 
-.home-container {
+body {
   font-family: 'Roboto', Arial, sans-serif;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #d3d3d3 0%, #a9a9a9 100%); // Greyscale gradient matching navbar
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.home-content {
-  width: 100%;
-  padding: 20px;
-}
-
-.section {
-  margin: 0;
-}
-
-// Login Card Styling
+// Centering Wrapper
 .login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 100vh;
+  width: 100%;
 }
 
+// Login Card Styling
 .login-card {
-  background: white;
+  background: #f0f0f0; // Light grey for soft contrast
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 420px;
   padding: 2.5rem;
   animation: fadeIn 0.5s ease-in;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centering content inside the card
 }
 
 // Header Styling
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .form-title {
@@ -63,11 +59,16 @@
 .user-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  align-items: center; // Aligning inputs to center
+  width: 100%;
 }
 
 .form-group {
-  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centering the input fields and labels
 }
 
 .form-group label {
@@ -76,33 +77,23 @@
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
-}
-
-.input-wrapper {
-  position: relative;
+  text-align: center; // Centering the label
 }
 
 .form-control {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  background: white;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-}
-
-.input-icon {
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #7f8c8d;
+  border-color: #555;
+  box-shadow: 0 0 0 3px rgba(85, 85, 85, 0.2);
 }
 
 .error-message {
@@ -111,53 +102,51 @@
   margin-top: 0.25rem;
 }
 
-// Form Options
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #7f8c8d;
-}
-
-.forgot-password {
-  color: #3498db;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.forgot-password:hover {
-  color: #2980b9;
-  text-decoration: underline;
-}
-
-// Submit Button
+// Submit Button Adjustments
 .submit-btn {
-  background: #3498db;
+  background: #444; // Darker grey for contrast
   color: white;
   border: none;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  margin-top: 0.5rem;
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #2980b9;
+  background: #666;
   transform: translateY(-2px);
 }
 
 .submit-btn:disabled {
-  background: #bdc3c7;
+  background: #aaa;
   cursor: not-allowed;
+}
+
+// Centering Additional Options (Login / Signup)
+.form-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.form-options a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-options a:hover {
+  text-decoration: underline;
 }
 
 // Animations
