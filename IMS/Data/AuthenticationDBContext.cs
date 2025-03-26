@@ -21,15 +21,15 @@ namespace IMS.Model.Data
             modelBuilder.Entity<IdentityUserRole<string>>().HasKey(x => new { x.UserId, x.RoleId });
             modelBuilder.Entity<IdentityUserToken<string>>().HasKey(x => new { x.UserId, x.LoginProvider, x.Name });
 
-            modelBuilder.Entity<Attendance>()
-           .HasIndex(c => c.UserId) // Ensure UniqueCode is indexed
-           .IsUnique();
+           // modelBuilder.Entity<Attendance>()
+           //.HasIndex(c => c.UserId) // Ensure UniqueCode is indexed
+           //.IsUnique();
 
             modelBuilder.Entity<ApplicationUser>()
                             .HasMany(u => u.Attendances)
                             .WithOne(a => a.User)
                             .HasForeignKey(a => a.UserId)
-                            .HasPrincipalKey(c => c.UserId)
+                           // .HasPrincipalKey(c => c.UserId)
                             .IsRequired(false)
                             .OnDelete(DeleteBehavior.Cascade);
            
