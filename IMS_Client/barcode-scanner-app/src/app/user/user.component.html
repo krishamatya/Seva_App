@@ -1,8 +1,6 @@
-<!-- user-details.component.html -->
- 
 <div *ngIf="user; else loading" class="user-details">
-    <h2>User Details</h2>
-    <div class="user-info">
+  <h2>User Details</h2>
+  <div class="user-info">
       <p><strong>ID:</strong> {{ user.userId }}</p>
       <p><strong>Employee Unique ID:</strong> {{ user.employeeUniqueId }}</p>
       <p><strong>Username:</strong> {{ user.userName }}</p>
@@ -10,35 +8,34 @@
       <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
       <p><strong>Department:</strong> {{ user.departmentName }}</p>
       <p><strong>Designation:</strong> {{ user.designation }}</p>
-     
-    </div>
-  
-    <h3>Attendance Records</h3>
-    <p>Total Present Days:  <span> {{count}}</span></p>
-
-    <h2> Attendance History</h2>
-    <div *ngIf="user.attendances; else noAttendance">
-      <table class="attendance-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Check-In Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let attendance of user.attendances">
-            <td>{{ attendance.id }}</td>
-            <td>{{ attendance.checkInDate | date: 'medium' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <ng-template #noAttendance>
-      <p>No attendance records found.</p>
-    </ng-template>
   </div>
-  
-  <ng-template #loading>
-    <p>Loading user details...</p>
+
+  <h3>Attendance Records</h3>
+  <p class="total-days">Total Present Days: <span>{{ count }}</span></p>
+
+  <h2>Attendance History</h2>
+  <div *ngIf="user.attendances.length > 0; else noAttendance">
+      <table class="attendance-table">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Check-In Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let attendance of user.attendances">
+                  <td>{{ attendance.id }}</td>
+                  <td>{{ attendance.checkInDate | date: 'medium' }}</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+  <ng-template #noAttendance>
+      <p class="no-records">No attendance records found.</p>
   </ng-template>
+</div>
+
+<ng-template #loading>
+  <p class="loading-text">Loading user details...</p>
+</ng-template>

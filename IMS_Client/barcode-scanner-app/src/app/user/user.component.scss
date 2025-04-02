@@ -1,0 +1,79 @@
+/* General styling */
+.user-details {
+    font-family: 'Poppins', Arial, sans-serif;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.user-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Total present days styling */
+.total-days {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Attendance table */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 16px;
+    background: #fff;
+}
+
+.attendance-table th, .attendance-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.attendance-table th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+}
+
+.attendance-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.attendance-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* No records found message */
+.no-records {
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+    margin-top: 10px;
+}
+
+/* Loading text */
+.loading-text {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    margin-top: 20px;
+}
