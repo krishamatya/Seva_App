@@ -44,6 +44,7 @@ namespace AuthenticationService.Controller
         public async Task<IActionResult> Register([FromBody] ApplicationUser model)
         {
             IdentityResult result = new IdentityResult();
+            model.UserId = await _qrCodeService.UserCount();
             if (model.Roles == "Client")
             {
                 result = await _userManager.CreateAsync(model);
@@ -57,7 +58,7 @@ namespace AuthenticationService.Controller
             if (result.Succeeded)
             {
                 model.EmployeeUniqueId = QRCodeService.GenerateRandomBarcode(12);
-                model.UserId = await _qrCodeService.UserCount();
+              
                 await _userManager.UpdateAsync(model);
 
                 if (!await _roleManager.RoleExistsAsync(model.Roles))

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IMS.Model
 {
@@ -6,7 +7,8 @@ namespace IMS.Model
     {
         [Key]
         public int AttendanceId { get; set; }
-        public string? UserId { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; } = null!;
         public ApplicationUser User { get; set; }
         public DateTime? CheckInDate { get; set; }
         public DateTime? CheckOutTime { get; set; }
