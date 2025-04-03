@@ -1,42 +1,43 @@
+<ng-container *ngIf="roles === 'reception'; else otherRoles">
+  <app-barcode-scanner></app-barcode-scanner>
+</ng-container>
 
-@if(this.roles == 'reception'){
-<app-barcode-scanner></app-barcode-scanner>
-}
- 
-<div *ngIf="user; else loading" class="user-details">
-  <h2 class="header">User Details</h2>
-  <div *ngIf="user; else noUser">
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>UserName</th>
-          <th>Email</th>
-          <th>Department</th>
-          <th>Phone</th>
-          <th>Designation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let u of user; trackBy: trackByItemId">
-          <td>{{ u.userId }}</td>
-          <td>{{ u.userName | uppercase }}</td>
-          <td>{{ u.email }}</td>
-          <td>{{ u.departmentName | uppercase }}</td>
-          <td>{{ u.phoneNumber }}</td>
-          <td>{{ u.designation | uppercase }}</td>
-        </tr>
-      </tbody>
-    </table>
+<ng-template #otherRoles>
+  <div *ngIf="user; else loading" class="user-details">
+    <h2 class="header">User Details</h2>
+    <div *ngIf="user.length > 0; else noUser">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Phone</th>
+            <th>Designation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of user; trackBy: trackByItemId">
+            <td>{{ u.userId }}</td>
+            <td>{{ u.userName | uppercase }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.departmentName | uppercase }}</td>
+            <td>{{ u.phoneNumber }}</td>
+            <td>{{ u.designation | uppercase }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noUser>
+      <p>No User records found.</p>
+    </ng-template>
   </div>
 
-  <ng-template #noUser>
-    <p>No User records found.</p>
+  <ng-template #loading>
+    <p>Loading user details...</p>
   </ng-template>
-</div>
-
-<ng-template #loading>
-  <p>Loading user details...</p>
 </ng-template>
 
-<app-footer *ngIf="this.roles != 'Client' && this.roles != 'reception'"></app-footer>
+<app-footer *ngIf="roles !== 'Client' && roles !== 'reception'"></app-footer>
