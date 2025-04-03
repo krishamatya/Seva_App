@@ -16,9 +16,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 export class HomeComponent implements OnInit
 {
   loginForm!: FormGroup;
-  id: number | null = null;
-  isLoggedIn : boolean = false;
-  selectedRoles:string| null = null;
   constructor(private fb:FormBuilder,private router:Router,private route: ActivatedRoute,public barCodeService:BarCodeScannerService){
   }
 
